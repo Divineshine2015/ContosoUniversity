@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Data.Entity;
+using ContosoUniversity.Models;
 namespace ContosoUniversity.DAL
 {
     public class SchoolContext:DbContext 
