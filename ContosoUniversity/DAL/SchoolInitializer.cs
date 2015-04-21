@@ -9,13 +9,13 @@ using System.Data.Entity;
 namespace ContosoUniversity.DAL
 {
     public class SchoolInitializer:System.Data.Entity.DropCreateDatabaseIfModelChanges<SchoolContext>
-
+    
     {
         protected override void Seed(SchoolContext context)
         {
             var students=new List<Student>
             {
-                new Student{FirstMidName="Carson",LastName="Alexander",EnrollmentDate=DateTime.Parse("205-09-01")},
+                new Student{FirstMidName="Carson",LastName="Alexander",EnrollmentDate=DateTime.Parse("2005-09-01")},
                 new Student{FirstMidName="Meredith",LastName="Alonso",EnrollmentDate=DateTime.Parse("2002-09-01")},
                 new Student{FirstMidName="Arturo",LastName="Anand",EnrollmentDate=DateTime.Parse("2003-09-01")},
                 new Student{FirstMidName="Gytis",LastName="Barzdukas",EnrollmentDate=DateTime.Parse("2002-09-01")},
@@ -26,7 +26,7 @@ namespace ContosoUniversity.DAL
             };
 
             students.ForEach(s=>context.Students.Add(s));
-           // context.SaveChanges();
+            context.SaveChanges();
             var courses=new List<Course>
             {
                 new Course{CourseID=1050,Title="Chemistry",Credits=3},
@@ -38,7 +38,7 @@ namespace ContosoUniversity.DAL
                 new Course{CourseID=2042,Title="Literature",Credits=4,}
             };
             courses.ForEach(s=>context.Courses.Add(s));
-            //context.SaveChanges();
+            context.SaveChanges();
 
             var enrollments=new List<Enrollment>
             {
@@ -57,7 +57,7 @@ namespace ContosoUniversity.DAL
 
             };
             enrollments.ForEach(s => context.Enrollments.Add(s));
-           // context.SaveChanges();
+            context.SaveChanges();
             
 
             
