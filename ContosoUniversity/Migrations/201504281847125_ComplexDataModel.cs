@@ -8,6 +8,17 @@ namespace ContosoUniversity.Migrations
         public override void Up()
         {
             CreateTable(
+                "dbo.Instructor",
+                c => new
+                {
+                    ID = c.Int(nullable: false, identity: true),
+                    LastName = c.String(nullable: false, maxLength: 50),
+                    FirstName = c.String(nullable: false, maxLength: 50),
+                    HireDate = c.DateTime(nullable: false),
+                })
+                .PrimaryKey(t => t.ID);
+
+            CreateTable(
                 "dbo.Department",
                 c => new
                     {
@@ -21,16 +32,7 @@ namespace ContosoUniversity.Migrations
                 .ForeignKey("dbo.Instructor", t => t.InstructorID)
                 .Index(t => t.InstructorID);
             
-            CreateTable(
-                "dbo.Instructor",
-                c => new
-                    {
-                        ID = c.Int(nullable: false, identity: true),
-                        LastName = c.String(nullable: false, maxLength: 50),
-                        FirstName = c.String(nullable: false, maxLength: 50),
-                        HireDate = c.DateTime(nullable: false),
-                    })
-                .PrimaryKey(t => t.ID);
+            
             
             CreateTable(
                 "dbo.OfficeAssignment",
@@ -59,7 +61,7 @@ namespace ContosoUniversity.Migrations
             Sql("INSERT INTO dbo.Department (Name, Budget, StartDate) VALUES ('Temp', 0.00, GETDATE())");
 
             // default value for FK points to department created above.
-            
+            AddColumn("dbo.Course", "DepartmentID", c => c.Int(nullable: false, defaultValue: 1));
             //AddColumn("dbo.Course", "DepartmentID", c => c.Int(nullable: false));
             AlterColumn("dbo.Course", "Title", c => c.String(maxLength: 50));
             AlterColumn("dbo.Student", "LastName", c => c.String(nullable: false, maxLength: 50));
