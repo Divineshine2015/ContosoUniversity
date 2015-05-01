@@ -176,23 +176,23 @@ namespace ContosoUniversity.Controllers
             {
                 instructorToUpdate.Courses = new List<Course>(); return;
             }
-            var selectedCoursesHS = new HashSet<string>(selectedCourses); 
+            var selectedCoursesHS = new HashSet<string>(selectedCourses);
             var instructorCourses = new HashSet<int>(instructorToUpdate.Courses.Select(c => c.CourseID));
-            foreach (var course in db.Courses) 
+            foreach (var course in db.Courses)
             {
-                if (selectedCoursesHS.Contains(course.CourseID.ToString())) 
-                { 
-                    if (!instructorCourses.Contains(course.CourseID)) 
-                    { 
-                        instructorToUpdate.Courses.Add(course); 
-                    } 
-                } 
+                if (selectedCoursesHS.Contains(course.CourseID.ToString()))
+                {
+                    if (!instructorCourses.Contains(course.CourseID))
+                    {
+                        instructorToUpdate.Courses.Add(course);
+                    }
+                }
                 else
-                { 
-                    if (instructorCourses.Contains(course.CourseID)) 
-                    { 
-                        instructorToUpdate.Courses.Remove(course); 
-                    } 
+                {
+                    if (instructorCourses.Contains(course.CourseID))
+                    {
+                        instructorToUpdate.Courses.Remove(course);
+                    }
                 }
             }
         }
@@ -217,8 +217,20 @@ namespace ContosoUniversity.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Instructor instructor = db.Instructors.Find(id);
+            Instructor instructor = db.Instructors
+                .Include(i => i.OfficeAssignment)
+                .Where(i => i.ID == id).Single();
+
+            instructor.OfficeAssignment = null;
             db.Instructors.Remove(instructor);
+
+            var department = db.Departments
+                .Where(d => d.InstructorID == id)
+                .SingleOrDefault();
+            if (department != null) 
+            { 
+                department.InstructorID = null;
+            }
             db.SaveChanges();
             return RedirectToAction("Index");
         }
