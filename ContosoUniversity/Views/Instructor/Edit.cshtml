@@ -52,7 +52,6 @@
                 <table>
                     <tr>
                         @{
-
     int cnt = 0;
     List<ContosoUniversity.ViewModels.AssignedCourseData>
         courses = ViewBag.Courses;
@@ -60,19 +59,17 @@
     {
         if (cnt++ % 3 == 0)
         {
-            @:
-            <tr></tr>
-                    }
-                    @:<td>
-                    <input type="checkbox"
-                           name="selectedCourses"
-                           value="@course.CourseID"
-                           @(Html.Raw(course.Assigned ? "checked=\"checked\"" : "")) />
-                    @course.CourseID @: @course.Title
-                    @:
-                </td>
+            @:</tr><tr>
+        }
+            @:<td>
+                                <input type="checkbox"
+                                       name="selectedCourses"
+                                       value="@course.CourseID"
+                                       @(Html.Raw(course.Assigned ? "checked=\"checked\"" : "")) />
+                                @course.CourseID @: @course.Title
+                                @:</td>
     }
-                            @:</tr>
+            @:</tr>
                         }
                     </table>
                 </div>
